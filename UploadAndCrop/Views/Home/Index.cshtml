@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@Styles.Render("~/bundles/CSS/UploadCrop")
+<div class="container">
+    <div class="row">
+        <div class="span12">
+            <div class="jc-demo-box">
+                <img src="/UploadFiles/default.jpg" id="PicBox" alt="[Jcrop Example]" />
+                <hr />
+                <span class="btn btn-success fileinput-button pull-left">
+                    <span>上传文件</span>
+                    <input id="fileupload" type="file" name="img" multiple data-url="/FileUpload/UploadFile">
+                </span>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                @using (Html.BeginForm("CropImage", "FileUpload", FormMethod.Post, new { id = "CropImageForm", @class = "pull-left", @style = "margin-left: 4px;" }))
+                {
+                    @Html.Hidden("x");                   
+                    @Html.Hidden("y");
+                    @Html.Hidden("w") ;   
+                    @Html.Hidden("h");
+                    @Html.Hidden("imgUrl");
+                    <a href="javascript:document.getElementById('CropImageForm').submit()" class="btn btn-success">裁剪并保存</a>
+                }
+                <div id="preview-pane" class="hidden">
+                    <div class="preview-container">
+                        <img src="/UploadFiles/default.jpg" id="PicBoxPreview" class="jcrop-preview" alt="Preview" />
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div>
+        <img id="PicBox" src="../images/default.jpg">
+        <span class="btn btn-success fileinput-button">
+            <span>上传文件</span>
+            <input id="fileupload" type="file" name="img" multiple data-url="FileUpload/UploadFile">
+        </span>
+    </div>*@
+<hr />
+@Scripts.Render("~/bundles/UploadCrop")

@@ -283,3 +283,4 @@ $RECYCLE.BIN/
 *.pdb
 *.cache
 /packages/
+*.sln
