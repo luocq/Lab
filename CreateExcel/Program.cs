@@ -13,8 +13,11 @@ namespace CreateExcel
         static void Main(string[] args)
         {
             string Dir = Environment.CurrentDirectory;
-            string filePath = Path.Combine(Dir, "Test.xlsx");
+            string fileName =  "Test.xlsx";
+            string filePath = Path.Combine(Dir,fileName);
             CreateExcelByNpoi(filePath);
+            Console.WriteLine(string.Format("在目录{0}下创建了文件{1}", Dir, fileName));
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -49,7 +52,7 @@ namespace CreateExcel
         /// </summary>
         private static void CreateExcelByOpenXmlSDK(string filePath)
         {
-            string filePath="";
+            //string filePath="";
         }
 
 
