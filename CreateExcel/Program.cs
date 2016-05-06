@@ -32,16 +32,20 @@ namespace CreateExcel
             }
             IWorkbook workbook = null;
             workbook = new NPOI.XSSF.UserModel.XSSFWorkbook();
-            ISheet sheet = workbook.CreateSheet("sheetName");
-            for (int i = 0; i < 10; i++)
+            for (int count = 0; count < 50; count++)
             {
-                IRow row = sheet.CreateRow(i);
-                for (int j = 0; j < 10; j++)
+                ISheet sheet = workbook.CreateSheet(string.Format("sheetName{0}",count));
+                for (int i = 0; i < 10; i++)
                 {
-                    ICell cell = row.CreateCell(j);
-                    cell.SetCellValue(string.Format("{0}:{1}", i, j));
+                    IRow row = sheet.CreateRow(i);
+                    for (int j = 0; j < 10; j++)
+                    {
+                        ICell cell = row.CreateCell(j);
+                        cell.SetCellValue(string.Format("{0}:{1}", i, j));
+                    }
                 }
             }
+          
             FileStream sw = File.Create(filePath);
             workbook.Write(sw);
             sw.Close();
