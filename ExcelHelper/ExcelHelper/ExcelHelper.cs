@@ -54,8 +54,73 @@ namespace ExcelHelper
                     uint rowIndex = 1;
                     int ColumnIndex = 1;
 
-
                     //第一行、标题行
+                    StringValue firstCellReference = null;
+                    StringValue LastCellReference = null;
+                    Cell firstCell = InsertCellInWorksheet(GetColumnName(1), rowIndex, worksheetPart);
+                    Cell lastCell = InsertCellInWorksheet(GetColumnName(dt.Columns.Count), rowIndex, worksheetPart);
+                    int strIndex0 = InsertSharedStringItem("合并单元格", shareStringPart);
+                    firstCell.DataType = new EnumValue<CellValues>(CellValues.SharedString);
+                    firstCell.CellValue = new DocumentFormat.OpenXml.Spreadsheet.CellValue(strIndex0.ToString());
+                    firstCell.StyleIndex = 7;
+                    firstCellReference = firstCell.CellReference;
+                    LastCellReference = lastCell.CellReference;
+
+
+                    MergeCells mergeCells = new MergeCells();
+                    if (worksheetPart.Worksheet.Elements<MergeCells>().Count() > 0)
+                    {
+                        mergeCells = worksheetPart.Worksheet.Elements<MergeCells>().First();
+                    }
+                    else
+                    {
+                        mergeCells = new MergeCells();
+                        // Insert a MergeCells object into the specified position.
+                        if (worksheetPart.Worksheet.Elements<CustomSheetView>().Count() > 0)
+                        {
+                            worksheetPart.Worksheet.InsertAfter(mergeCells, worksheetPart.Worksheet.Elements<CustomSheetView>().First());
+                        }
+                        else if (worksheetPart.Worksheet.Elements<DataConsolidate>().Count() > 0)
+                        {
+                            worksheetPart.Worksheet.InsertAfter(mergeCells, worksheetPart.Worksheet.Elements<DataConsolidate>().First());
+                        }
+                        else if (worksheetPart.Worksheet.Elements<SortState>().Count() > 0)
+                        {
+                            worksheetPart.Worksheet.InsertAfter(mergeCells, worksheetPart.Worksheet.Elements<SortState>().First());
+                        }
+                        else if (worksheetPart.Worksheet.Elements<AutoFilter>().Count() > 0)
+                        {
+                            worksheetPart.Worksheet.InsertAfter(mergeCells, worksheetPart.Worksheet.Elements<AutoFilter>().First());
+                        }
+                        else if (worksheetPart.Worksheet.Elements<Scenarios>().Count() > 0)
+                        {
+                            worksheetPart.Worksheet.InsertAfter(mergeCells, worksheetPart.Worksheet.Elements<Scenarios>().First());
+                        }
+                        else if (worksheetPart.Worksheet.Elements<ProtectedRanges>().Count() > 0)
+                        {
+                            worksheetPart.Worksheet.InsertAfter(mergeCells, worksheetPart.Worksheet.Elements<ProtectedRanges>().First());
+                        }
+                        else if (worksheetPart.Worksheet.Elements<SheetProtection>().Count() > 0)
+                        {
+                            worksheetPart.Worksheet.InsertAfter(mergeCells, worksheetPart.Worksheet.Elements<SheetProtection>().First());
+                        }
+                        else if (worksheetPart.Worksheet.Elements<SheetCalculationProperties>().Count() > 0)
+                        {
+                            worksheetPart.Worksheet.InsertAfter(mergeCells, worksheetPart.Worksheet.Elements<SheetCalculationProperties>().First());
+                        }
+                        else
+                        {
+                            worksheetPart.Worksheet.InsertAfter(mergeCells, worksheetPart.Worksheet.Elements<SheetData>().First());
+                        }
+                    }
+                    MergeCell mergeCell = new MergeCell() { Reference = new StringValue(firstCellReference+":"+LastCellReference) };
+                    mergeCells.Append(mergeCell);
+                    worksheetPart.Worksheet.Save();
+
+
+                    rowIndex++;
+
+                    //第二行、数据标题
                     for (ColumnIndex = 1; ColumnIndex <= dt.Columns.Count; ColumnIndex++)
                     {
                         string name = dt.Columns[ColumnIndex - 1].ColumnName;
