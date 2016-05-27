@@ -45,7 +45,8 @@ namespace ExcelHelper
                     sname++;
 
                     //创建列
-                    worksheetPart.Worksheet.InsertAfter(GenerateColumns(ColumnNames), worksheetPart.Worksheet.SheetProperties);
+                    //worksheetPart.Worksheet.InsertAfter(GenerateColumns(ColumnNames), worksheetPart.Worksheet.SheetProperties);
+                    worksheetPart.Worksheet.InsertAfter(GenerateColumns(GetMax(dt)), worksheetPart.Worksheet.SheetProperties);
 
                     //创建多个工作表可共用的字符串容器
                     SharedStringTablePart shareStringPart = CreateSharedStringTablePart(Doc.WorkbookPart);
@@ -582,6 +583,21 @@ namespace ExcelHelper
         }
 
 
+        public static Columns GenerateColumns(List<int> ColumnNames)
+        {
+            double MaxWidth = 11;
+            Columns columns = new Columns();
+            for (int i = 0; i < ColumnNames.Count; i++)
+            {
+                UInt32Value index = new UInt32Value((uint)i + 1);               
+                var width = Math.Truncate((ColumnNames[i] * MaxWidth + 5.0) / MaxWidth * 256) / 256 +2;
+                Column col = new Column() { Min = index, Max = index, Width = width, CustomWidth = true, BestFit = true };
+                columns.Append(col);
+            }
+            return columns;
+        }
+
+
 
         public static Columns GenerateColumns(List<string> ColumnNames)
         {
@@ -623,6 +639,37 @@ namespace ExcelHelper
                     lenTotal = lenTotal + 1;
             }
             return lenTotal;
+        }
+
+
+        /// <summary>
+        /// 获取最长的那一列
+        /// </summary>
+        private static List<int> GetMax(DataTable dt)
+        {
+            List<int> t = new List<int>();
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+                DataColumn dc = dt.Columns[i];
+
+                DataColumn maxLengthColumn = new DataColumn();
+                maxLengthColumn.ColumnName = "MaxLength";
+                maxLengthColumn.Expression = "len(convert('" + dc.ColumnName + "','System.String'))";
+                dt.Columns.Add(maxLengthColumn);
+                object maxLength = dt.Compute("max(MaxLength)", "true");
+                dt.Columns.Remove(maxLengthColumn);
+                int len = Convert.ToInt32(maxLength);
+                if (len > GetTrueLength(dc.ColumnName))
+                {
+                    t.Add(len);
+                }
+                else
+                {
+                    t.Add(GetTrueLength(dc.ColumnName));
+                }
+            }
+
+            return t;
         }
     }
 }
