@@ -20,8 +20,12 @@ namespace Test
         protected void btnExportExcel_Click(object sender, EventArgs e)
         {
             ExcelHelper.ExcelHelper helper = new ExcelHelper.ExcelHelper();
-
-            MemoryStream ms = helper.CreateExcel(GetTestData());
+            List<DataTable> t = new List<DataTable>();
+            for (int i = 0; i < 4; i++)
+            {
+                t.Add(GetTestData());
+            }
+            MemoryStream ms = helper.CreateExcel(t);
             HttpContext.Current.Response.AppendHeader("Content-Disposition", "attachment;filename=test.xlsx");
             HttpContext.Current.Response.BinaryWrite(ms.ToArray());
             HttpContext.Current.Response.End();
@@ -37,18 +41,18 @@ namespace Test
             //DataRow dr= dt.NewRow();
 
 
-            dc = dt.Columns.Add("name", Type.GetType("System.String"));
+            dc = dt.Columns.Add("很长很长的姓名", Type.GetType("System.String"));
             dc = dt.Columns.Add("Birth", Type.GetType("System.DateTime"));
-            dc = dt.Columns.Add("Count", Type.GetType("System.Int32"));
-            dc = dt.Columns.Add("Money", Type.GetType("System.Double"));
+            dc = dt.Columns.Add("很长很长的数量", Type.GetType("System.Int32"));
+            dc = dt.Columns.Add("很长很长的数字数字", Type.GetType("System.Double"));
 
             for (int i = 0; i < 100; i++)
             {
                 DataRow dr = dt.NewRow();
-                dr["name"] = string.Format("姓名_{0}", i);
+                dr["很长很长的姓名"] = string.Format("姓名_{0}", i);
                 dr["Birth"] = DateTime.Now.AddDays(i);
-                dr["Count"] = i;
-                dr["Money"] = Math.Round((double)i / 100, 2);
+                dr["很长很长的数量"] = i;
+                dr["很长很长的数字数字"] = Math.Round((double)i / 100, 2);
                 dt.Rows.Add(dr);
             }
             return dt;
