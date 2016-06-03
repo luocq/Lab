@@ -40,7 +40,7 @@ namespace Test
 
             //DataRow dr= dt.NewRow();
 
-            dc = dt.Columns.Add("#", Type.GetType("System.String"));
+            dc = dt.Columns.Add("adfada", Type.GetType("System.String"));
             dc = dt.Columns.Add("很长很长的姓名", Type.GetType("System.String"));
             dc = dt.Columns.Add("Birth", Type.GetType("System.DateTime"));
             dc = dt.Columns.Add("很长很长的数量", Type.GetType("System.Int32"));
@@ -49,7 +49,7 @@ namespace Test
             for (int i = 0; i < 100; i++)
             {
                 DataRow dr = dt.NewRow();
-                dr["#"] = i.ToString();
+                dr["adfada"] = (i * 100).ToString();
                 dr["很长很长的姓名"] = string.Format("姓名_{0}", i);
                 dr["Birth"] = DateTime.Now.AddDays(i);
                 dr["很长很长的数量"] = i;
