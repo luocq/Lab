@@ -19,6 +19,7 @@ namespace Test
 
         protected void btnExportExcel_Click(object sender, EventArgs e)
         {
+
             ExcelHelper.ExcelHelper helper = new ExcelHelper.ExcelHelper();
             List<DataTable> t = new List<DataTable>();
             for (int i = 0; i < 4; i++)
@@ -39,7 +40,6 @@ namespace Test
             DataColumn dc = null;
 
             //DataRow dr= dt.NewRow();
-
             dc = dt.Columns.Add("#", Type.GetType("System.String"));
             dc = dt.Columns.Add("很长很长的姓名", Type.GetType("System.String"));
             dc = dt.Columns.Add("Birth", Type.GetType("System.DateTime"));
