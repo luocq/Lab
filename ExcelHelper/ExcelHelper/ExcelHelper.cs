@@ -26,9 +26,15 @@ namespace ExcelHelper
 
                 //创建WorkbookPart，在代码中主要使用这个相当于xml的root elements， spreadSheet.AddWorkbookPart()， 虽然是"Add"方法， 但你只能加一个。
                 Doc.AddWorkbookPart();
+
+                //创建样式部分
                 WorkbookStylesPart workbookStylesPart1 = Doc.WorkbookPart.AddNewPart<WorkbookStylesPart>();
                 workbookStylesPart1.Stylesheet = GenerateStyleSheet();
+
                 Doc.WorkbookPart.Workbook = new Workbook();
+                
+                //创建多个工作表可共用的字符串容器
+                SharedStringTablePart shareStringPart = CreateSharedStringTablePart(Doc.WorkbookPart);
 
                 int sname = 0;
                 foreach (DataTable dt in dts)
@@ -45,11 +51,10 @@ namespace ExcelHelper
                     sname++;
 
                     //创建列
-                    //worksheetPart.Worksheet.InsertAfter(GenerateColumns(ColumnNames), worksheetPart.Worksheet.SheetProperties);
-                    worksheetPart.Worksheet.InsertAfter(GenerateColumns(GetMax(dt)), worksheetPart.Worksheet.SheetProperties);
+                    List<int> ColumnWidths = GetMax(dt);
+                    worksheetPart.Worksheet.InsertAfter(GenerateColumns(ColumnWidths), worksheetPart.Worksheet.SheetProperties);
 
-                    //创建多个工作表可共用的字符串容器
-                    SharedStringTablePart shareStringPart = CreateSharedStringTablePart(Doc.WorkbookPart);
+
 
                     uint rowIndex = 1;
                     int ColumnIndex = 1;
@@ -437,217 +442,6 @@ namespace ExcelHelper
                 )
             ); // return
         }
-
-
-
-
-        //        public class ExcelNumberFormat
-        //    {
-        //        private static Dictionary<uint, string> _builtInFormats_Global = new Dictionary<uint, string>()
-        //        {
-        //            {0, "General"},
-        //            {1, "0"},
-        //            {2, "0.00"},
-        //            {3, "#,##0"},
-        //            {4, "#,##0.00"},
-        //            {9, "0%"},
-        //            {10, "0.00%"},
-        //            {11, "0.00E+00"},
-        //            {12, "# ?/?"},
-        //            {13, "# ??/??"},
-        //            {14, "m/d/yyyy"},
-        //            {15, "d-mmm-yy"},
-        //            {16, "d-mmm"},
-        //            {17, "mmm-yy"},
-        //            {18, "h:mm AM/PM"},
-        //            {19, "h:mm:ss AM/PM"},
-        //            {20, "h:mm"},
-        //            {21, "h:mm:ss"},
-        //            {22, "m/d/yy h:mm"},
-        //            {37, "#,##0 ;(#,##0)"},
-        //            {38, "#,##0 ;[Red](#,##0)"},
-        //            {39, "#,##0.00;(#,##0.00)"},
-        //            {40, "#,##0.00;[Red](#,##0.00)"},
-        //            {45, "mm:ss"},
-        //            {46, "[h]:mm:ss"},
-        //            {47, "mmss.0"},
-        //            {48, "##0.0E+0"},
-        //            {49, "@"}
-        //        };
-
-        //        private DocumentStyles _styles;
-        //        private IStylable _stylable;
-
-        //        internal uint NumFmtId { get; set; }
-
-        //        internal ExcelNumberFormat(IStylable stylable, DocumentStyles styles, uint numFmtId)
-        //        {
-        //            _stylable = stylable;
-        //            _styles = styles;
-        //            NumFmtId = numFmtId;
-        //        }
-
-        //        public string Format
-        //        {
-        //            get
-        //            {
-        //                if (_builtInFormats_Global.ContainsKey(NumFmtId))
-        //                    return _builtInFormats_Global[NumFmtId];
-        //                NumberingFormat numFmt = _styles.GetNumberingFormat(NumFmtId);
-        //                return numFmt.FormatCode;
-        //            }
-        //            set
-        //            {
-        //                uint newNumFmtId;
-        //                KeyValuePair<uint, string> builtInFmt = (from i in _builtInFormats_Global
-        //                                                         where i.Value == value
-        //                                                         select i).FirstOrDefault();
-        //                if (builtInFmt.Value == value)
-        //                {
-        //                    newNumFmtId = builtInFmt.Key;
-        //                }
-        //                else
-        //                {
-        //                    NumberingFormat numFmt = new NumberingFormat() { FormatCode = value };
-        //                    newNumFmtId = _styles.EnsureCustomNumberingFormat(numFmt);
-        //                }
-        //                if (newNumFmtId != NumFmtId)
-        //                {
-        //                    NumFmtId = newNumFmtId;
-        //                    if (_stylable != null)
-        //                        _stylable.Style.NumberFormat = this;
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-        private static void GenerateWorkbookStylesPart1Content(WorkbookStylesPart workbookStylesPart)
-        {
-
-            /*
-             *  在显示cell是通过StyleIndex 来关联 cellXfs的Index 来改变cell 的显示样式， 
-                注意， 这个index只能从1 开始，因此需要在cellXfs中加两个CellFormat子节点， 
-                我们这里要设置 wrap text， 因此在第二个节点设置applyAlignment 并设wrap Text ="1". 
-                怎么设置cell的 font，答案就是加一个font 子节点到fonts，
-                得到index， 再加一个cellformat 子节点 并设置fontid 为刚加的font的index。 把这个cellformat的id 给 要设置的cell的StyleIndex。
-             */
-
-
-            Stylesheet stylesheet = new Stylesheet();
-
-            //在创建stylesheet时， 必须创建fonts， Fills，Borders 和cellXfs（CellFormats） 四个节点
-            Fonts fonts = new Fonts() { Count = (UInt32Value)2U, KnownFonts = false };
-            Fills fills = new Fills() { Count = (UInt32Value)2U };
-            Borders borders = new Borders() { Count = (UInt32Value)1U };
-            CellFormats cellFormats = new CellFormats() { Count = (UInt32Value)2U };
-            CellStyleFormats cellStyleFormats = new CellStyleFormats() { Count = (UInt32Value)1U };
-            CellFormat cellFormat1 = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U };
-
-
-            Font font1 = new Font();
-            FontSize fontSize1 = new FontSize() { Val = 11D };
-            Color color1 = new Color() { Theme = (UInt32Value)1U };
-            FontName fontName1 = new FontName() { Val = "宋体" };
-            FontFamilyNumbering fontFamilyNumbering1 = new FontFamilyNumbering() { Val = 2 };
-            FontCharSet fontCharSet1 = new FontCharSet() { Val = 134 };
-            DocumentFormat.OpenXml.Spreadsheet.FontScheme fontScheme1 = new DocumentFormat.OpenXml.Spreadsheet.FontScheme() { Val = FontSchemeValues.Minor };
-
-            font1.Append(fontSize1);
-            font1.Append(color1);
-            font1.Append(fontName1);
-            font1.Append(fontFamilyNumbering1);
-            font1.Append(fontCharSet1);
-            font1.Append(fontScheme1);
-
-            Font font2 = new Font();
-            FontSize fontSize2 = new FontSize() { Val = 9D };
-            FontName fontName2 = new FontName() { Val = "宋体" };
-            FontFamilyNumbering fontFamilyNumbering2 = new FontFamilyNumbering() { Val = 2 };
-            FontCharSet fontCharSet2 = new FontCharSet() { Val = 134 };
-            DocumentFormat.OpenXml.Spreadsheet.FontScheme fontScheme2 = new DocumentFormat.OpenXml.Spreadsheet.FontScheme() { Val = FontSchemeValues.Minor };
-
-            font2.Append(fontSize2);
-            font2.Append(fontName2);
-            font2.Append(fontFamilyNumbering2);
-            font2.Append(fontCharSet2);
-            font2.Append(fontScheme2);
-
-            fonts.Append(font1);
-            fonts.Append(font2);
-
-
-
-            Fill fill1 = new Fill();
-            PatternFill patternFill1 = new PatternFill() { PatternType = PatternValues.None };
-            fill1.Append(patternFill1);
-            Fill fill2 = new Fill();
-            PatternFill patternFill2 = new PatternFill() { PatternType = PatternValues.Gray125 };
-            fill2.Append(patternFill2);
-            fills.Append(fill1);
-            fills.Append(fill2);
-
-
-
-            Border border1 = new Border();
-            LeftBorder leftBorder1 = new LeftBorder();
-            RightBorder rightBorder1 = new RightBorder();
-            TopBorder topBorder1 = new TopBorder();
-            BottomBorder bottomBorder1 = new BottomBorder();
-            DiagonalBorder diagonalBorder1 = new DiagonalBorder();
-            border1.Append(leftBorder1);
-            border1.Append(rightBorder1);
-            border1.Append(topBorder1);
-            border1.Append(bottomBorder1);
-            border1.Append(diagonalBorder1);
-            borders.Append(border1);
-
-
-
-
-            Alignment alignment1 = new Alignment() { Vertical = VerticalAlignmentValues.Center };
-            cellFormat1.Append(alignment1);
-
-            cellStyleFormats.Append(cellFormat1);
-
-
-            CellFormat cellFormat2 = new CellFormat() { NumberFormatId = (UInt32Value)0U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U, FormatId = (UInt32Value)0U };
-
-            Alignment alignment2 = new Alignment() { Vertical = VerticalAlignmentValues.Center };
-
-            cellFormat2.Append(alignment2);
-
-            CellFormat cellFormat3 = new CellFormat() { NumberFormatId = (UInt32Value)14U, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U, FormatId = (UInt32Value)0U, ApplyNumberFormat = true };
-            Alignment alignment3 = new Alignment() { Vertical = VerticalAlignmentValues.Center };
-
-
-            CellFormat cellFormat4 = new CellFormat() { NumberFormatId = 176, FontId = (UInt32Value)0U, FillId = (UInt32Value)0U, BorderId = (UInt32Value)0U };
-            cellFormat3.Append(alignment3);
-
-            cellFormats.Append(cellFormat2);
-            cellFormats.Append(cellFormat3);
-            cellFormats.Append(cellFormat4);
-
-            CellStyles cellStyles1 = new CellStyles() { Count = (UInt32Value)1U };
-            CellStyle cellStyle1 = new CellStyle() { Name = "常规", FormatId = (UInt32Value)0U, BuiltinId = (UInt32Value)0U };
-
-            cellStyles1.Append(cellStyle1);
-            DifferentialFormats differentialFormats1 = new DifferentialFormats() { Count = (UInt32Value)0U };
-            TableStyles tableStyles1 = new TableStyles() { Count = (UInt32Value)0U, DefaultTableStyle = "TableStyleMedium2", DefaultPivotStyle = "PivotStyleLight16" };
-
-            stylesheet.Append(fonts);
-            stylesheet.Append(fills);
-            stylesheet.Append(borders);
-            stylesheet.Append(cellStyleFormats);
-            stylesheet.Append(cellFormats);
-            stylesheet.Append(cellStyles1);
-            stylesheet.Append(differentialFormats1);
-            stylesheet.Append(tableStyles1);
-            //stylesheet.Append(stylesheetExtensionList1);
-
-            workbookStylesPart.Stylesheet = stylesheet;
-        }
-
-
         public static Columns GenerateColumns(List<int> ColumnNames)
         {
             double MaxWidth = 11;
@@ -661,8 +455,6 @@ namespace ExcelHelper
             }
             return columns;
         }
-
-
 
         public static Columns GenerateColumns(List<string> ColumnNames)
         {
@@ -705,7 +497,6 @@ namespace ExcelHelper
             }
             return lenTotal;
         }
-
 
         /// <summary>
         /// 获取最长的那一列
