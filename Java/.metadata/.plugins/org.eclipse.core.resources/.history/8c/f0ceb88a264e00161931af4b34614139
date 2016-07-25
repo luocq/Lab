@@ -1,0 +1,80 @@
+package cn.edu.pku.sce;
+@# ´òÓ¡´øÀ¨ºÅµÄ
+class PrintBrackets {
+	synchronized void call(String msg) {
+		System.out.print("[");
+		try {
+			System.out.print(msg);
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			System.out.print("Interrupted");
+		}
+		System.out.print("]");
+	}
+}
+
+class Caller implements Runnable {
+	String msg;
+	PrintBrackets Targets;
+	Thread t;
+	public Caller(PrintBrackets tag,String s) {
+		Targets=tag;
+		msg=s;
+		t=new Thread(this);
+		t.start();
+	}
+	
+	public void run() {
+		Targets.call(msg);
+	}
+}
+
+public class ThreadDemo {
+	public static void main(String args[]) {
+		PrintBrackets target = new PrintBrackets();
+	        Caller ob1 = new Caller(target, "Hello");
+	        Caller ob2 = new Caller(target, "Synchronized");
+	        Caller ob3 = new Caller(target, "World");
+	        try {
+				ob1.t.join();
+				ob2.t.join();
+				ob3.t.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
+}
+/*
+class Account {
+	float amount;
+
+	public Account(float amt) {
+		this.amount = amt;
+		try {
+			Thread.sleep(2);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void WithDraw(float t) {
+		this.amount += t;
+		try {
+			Thread.sleep(2);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void Deposit(float t) {
+		this.amount -= t;
+	}
+
+	public float GetBlance() {
+		return amount;
+	}
+
+}*/

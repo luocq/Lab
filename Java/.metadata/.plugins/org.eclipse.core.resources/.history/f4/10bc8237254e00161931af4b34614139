@@ -1,0 +1,68 @@
+package cn.edu.pku.sce;
+
+class PrintBrackets{
+	void call(String msg) {
+		System.out.print("[");
+		
+	}
+}
+
+public class ThreadDemo {
+	public static void main(String args[]) {
+		final int Thread_Size = 10;
+		Thread[] threads = new Thread[Thread_Size];
+		final Account account = new Account(5000f);
+		
+		for (int i = 0; i < Thread_Size; i++) {
+			threads[i] = new Thread(new Runnable() {
+				public void run() {
+					account.Deposit(100f);
+					account.WithDraw(100f);
+				}
+			});
+			threads[i].start();
+		}
+		for (int i = 0; i < Thread_Size; i++) {
+			try {
+				threads[i].join(); // 等待所有线程运行结束
+			} catch (InterruptedException e) {
+				// ignore
+			}
+		}
+		System.out.println("the finally balance is:" + account.GetBlance());
+
+	}
+}
+
+class Account {
+	float amount;
+
+	public Account(float amt) {
+		this.amount = amt;
+		try {
+			Thread.sleep(2);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void WithDraw(float t){
+		this.amount += t;
+		try {
+			Thread.sleep(2);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void Deposit(float t) {
+		this.amount -= t;
+	}
+
+	public float GetBlance() {
+		return amount;
+	}
+
+}

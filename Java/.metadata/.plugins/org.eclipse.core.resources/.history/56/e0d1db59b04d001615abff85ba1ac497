@@ -1,0 +1,8 @@
+package cn.edu.pku.sce;
+
+public class ThreadDemo {
+	public static void main(String args[]) {
+       
+    }
+}
+

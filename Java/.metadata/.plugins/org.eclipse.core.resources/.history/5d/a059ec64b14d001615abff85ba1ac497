@@ -1,0 +1,20 @@
+package cn.edu.pku.sce;
+
+import java.text.DecimalFormat;
+
+public class ThreadDemo {
+	public static void main(String args[]) {
+       
+    }
+}
+class Account{
+	float amount;
+	
+	public void WithDraw(Float t){
+		this.amount+=t;
+	}
+	
+	public void deposit(float t) {
+		this.amount-=toString();
+	}
+}

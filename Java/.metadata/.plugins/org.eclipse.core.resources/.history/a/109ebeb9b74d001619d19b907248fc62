@@ -1,0 +1,54 @@
+package cn.edu.pku.sce;
+
+public class ThreadDemo {
+	public static void main(String args[]) {
+		final int Thread_Size = 2000;
+		Thread[] threads = new Thread[Thread_Size];
+		final Account account = new Account(1000f);
+		try {
+			for (int i = 0; i < Thread_Size; i++) {
+				threads[i] = new Thread(new Runnable() {
+					public void run() {
+						account.Deposit(100f);
+						account.WithDraw(100f);
+						threads[i].sleep(300);
+					}
+				});
+				threads[i].start();
+			}
+		} catch (InterruptedException e) {
+			// TODO: handle exception
+		}
+		
+		for (int i = 0; i < Thread_Size; i++) {
+			try {
+				threads[i].join(); // 等待所有线程运行结束
+			} catch (InterruptedException e) {
+				// ignore
+			}
+		}
+		System.out.println("the finally balance is:" + account.GetBlance());
+
+	}
+}
+
+class Account {
+	float amount;
+
+	public Account(float amt) {
+		this.amount = amt;
+	}
+
+	public void WithDraw(float t) {
+		this.amount += t;
+	}
+
+	public void Deposit(float t) {
+		this.amount -= t;
+	}
+
+	public float GetBlance() {
+		return amount;
+	}
+
+}
