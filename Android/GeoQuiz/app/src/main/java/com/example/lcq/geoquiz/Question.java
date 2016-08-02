@@ -5,7 +5,7 @@ package com.example.lcq.geoquiz;
  */
 public class Question {
     private int mTextResId;
-    private  boolean mAnswerId;
+    private  boolean mAnswerTrue;
 
     public int getTextResId() {
         return mTextResId;
@@ -15,17 +15,17 @@ public class Question {
         mTextResId = textResId;
     }
 
-    public boolean isAnswerId() {
-        return mAnswerId;
+    public boolean isAnswerTrue() {
+        return mAnswerTrue;
     }
 
-    public void setAnswerId(boolean answerId) {
-        mAnswerId = answerId;
+    public void setAnswerTrue(boolean answerTrue) {
+        mAnswerTrue = answerTrue;
     }
 
-    public Question(int textResId, Boolean answerId){
+    public Question(int textResId, Boolean answerTrue){
         this.mTextResId=textResId;
 
-        this.mAnswerId=answerId;
+        this.mAnswerTrue=answerTrue;
     }
 }
