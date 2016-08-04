@@ -85,13 +85,13 @@ public class QuizActivity extends AppCompatActivity {
     protected void onStop()
     {
         super.onStop();
-        Log.d(TAG,"onStop()");
+        Log.d(TAG,"onStop() called");
     }
     @Override
     protected void onDestroy()
     {
         super.onDestroy();
-        Log.d(TAG,"onDestroy()");
+        Log.d(TAG,"onDestroy() called");
     }
     private void CheckAnswer(boolean userPressedTrue)
     {
