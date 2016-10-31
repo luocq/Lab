@@ -40,12 +40,9 @@ namespace Test
             DataColumn dc = null;
 
             //DataRow dr= dt.NewRow();
-<<<<<<< HEAD
-            dc = dt.Columns.Add("#", Type.GetType("System.String"));
-=======
 
             dc = dt.Columns.Add("adfada", Type.GetType("System.String"));
->>>>>>> ff0a28ec340b350b0f085bd8bf7ce91af0ba8111
+
             dc = dt.Columns.Add("很长很长的姓名", Type.GetType("System.String"));
             dc = dt.Columns.Add("Birth", Type.GetType("System.DateTime"));
             dc = dt.Columns.Add("很长很长的数量", Type.GetType("System.Int32"));
