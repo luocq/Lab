@@ -147,6 +147,12 @@ namespace CreateExcel
             sw.Close();
         }
 
+        private static void CreateExcel(string filePath, List<string> tmp)
+        {
+ 
+        }
+
+
         /// <summary>
         /// using OpenXmlSDK to CreateExcel 
         /// </summary>
@@ -428,7 +434,7 @@ namespace CreateExcel
             }
         }
 
-
+        //http://www.cnblogs.com/qimuxiaokai/articles/2864947.html
         private static void GenerateWorkbookStylesPart1Content(WorkbookStylesPart workbookStylesPart)
         {
 
@@ -538,22 +544,6 @@ namespace CreateExcel
             DifferentialFormats differentialFormats1 = new DifferentialFormats() { Count = (UInt32Value)0U };
             TableStyles tableStyles1 = new TableStyles() { Count = (UInt32Value)0U, DefaultTableStyle = "TableStyleMedium2", DefaultPivotStyle = "PivotStyleLight16" };
 
-            //StylesheetExtensionList stylesheetExtensionList1 = new StylesheetExtensionList();
-
-            //StylesheetExtension stylesheetExtension1 = new StylesheetExtension() { Uri = "{EB79DEF2-80B8-43e5-95BD-54CBDDF9020C}" };
-            //stylesheetExtension1.AddNamespaceDeclaration("x14", "http://schemas.microsoft.com/office/spreadsheetml/2009/9/main");
-            //X14.SlicerStyles slicerStyles1 = new X14.SlicerStyles() { DefaultSlicerStyle = "SlicerStyleLight1" };
-
-            //stylesheetExtension1.Append(slicerStyles1);
-
-            //StylesheetExtension stylesheetExtension2 = new StylesheetExtension() { Uri = "{9260A510-F301-46a8-8635-F512D64BE5F5}" };
-            //stylesheetExtension2.AddNamespaceDeclaration("x15", "http://schemas.microsoft.com/office/spreadsheetml/2010/11/main");
-            //X15.TimelineStyles timelineStyles1 = new X15.TimelineStyles() { DefaultTimelineStyle = "TimeSlicerStyleLight1" };
-
-            //stylesheetExtension2.Append(timelineStyles1);
-
-            //stylesheetExtensionList1.Append(stylesheetExtension1);
-            //stylesheetExtensionList1.Append(stylesheetExtension2);
 
             stylesheet.Append(fonts);
             stylesheet.Append(fills);
