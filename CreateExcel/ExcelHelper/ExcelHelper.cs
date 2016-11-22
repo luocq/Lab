@@ -23,7 +23,7 @@ namespace ExcelHelper
         /// <param name="dt">需要导出的dataTable数据</param>
         public static void CreateExcelFromDataTable(DataTable dt)
         {
-            string filePath = "";
+            string filePath = @"C:\Users\LCQ\Desktop\test.xlsx";
             //MemoryStream stream = new MemoryStream();
             SpreadsheetDocument Doc = SpreadsheetDocument.Create(filePath, DocumentFormat.OpenXml.SpreadsheetDocumentType.Workbook);
             Doc.PackageProperties.Creator = "PKUSCE";
@@ -50,6 +50,7 @@ namespace ExcelHelper
 
 
                 //第一行、标题行
+                //Header
                 for (ColumnIndex = 1; ColumnIndex <= dt.Columns.Count; ColumnIndex++)
                 {
                     string name = dt.Columns[ColumnIndex - 1].ColumnName;
@@ -105,7 +106,7 @@ namespace ExcelHelper
                     }
                     rowIndex++;
                 }
-
+              
                 worksheetPart.Worksheet.Save();
             }
 
@@ -160,10 +161,9 @@ namespace ExcelHelper
             }
 
             //创建Sheet实例并将它与sheets关联
-            Sheet sheet = new Sheet() { Id = relationshipId, SheetId = sheetId, Name = sheetTempName };
-            sheets.Append(sheet);
+            Sheet sheet = new Sheet() { Id = relationshipId, SheetId = sheetId, Name = sheetTempName };          
+            sheets.Append(sheet);  
             workbookPart.Workbook.Save();
-
             return newWorksheetPart;
         }
 
@@ -375,6 +375,62 @@ namespace ExcelHelper
             shareStringPart.SharedStringTable.Save();
 
             return i;
+        }
+    }
+
+    public class TextCell : Cell
+    {
+        public TextCell(string header, string text, int index)
+        {
+            this.DataType = CellValues.InlineString;
+            this.CellReference = header + index;
+            //Add text to the text cell.
+            this.InlineString = new InlineString { Text = new Text { Text = text } };
+        }
+    }
+    public class NumberCell : Cell
+    {
+        public NumberCell(string header, string text, int index)
+        {
+            this.DataType = CellValues.Number;
+            this.CellReference = header + index;
+            this.CellValue = new CellValue(text);
+        }
+    }
+    public class FormatedNumberCell : NumberCell
+    {
+        public FormatedNumberCell(string header, string text, int index)
+            : base(header, text, index)
+        {
+            this.StyleIndex = 2;
+        }
+    }
+    public class DateCell : Cell
+    {
+        public DateCell(string header, DateTime dateTime, int index)
+        {
+            this.DataType = CellValues.Date;
+            this.CellReference = header + index;
+            this.StyleIndex = 1;
+            this.CellValue = new CellValue { Text = dateTime.ToOADate().ToString() }; ;
+        }
+    }
+    public class FomulaCell : Cell
+    {
+        public FomulaCell(string header, string text, int index)
+        {
+            this.CellFormula = new CellFormula { CalculateCell = true, Text = text };
+            this.DataType = CellValues.Number;
+            this.CellReference = header + index;
+            this.StyleIndex = 2;
+        }
+    }
+    public class HeaderCell : TextCell
+    {
+        public HeaderCell(string header, string text, int index) :
+            base(header, text, index)
+        {
+            this.StyleIndex = 11;
         }
     }
 }

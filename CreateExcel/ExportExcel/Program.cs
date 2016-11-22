@@ -13,8 +13,9 @@ namespace ExportExcel
         static void Main(string[] args)
         {
             DataTable dt = GetTestData();
-            ExcelHelper.ExcelHelper.CreateExcelFromDataTable(dt);
-            Console.ReadKey();
+            //ExcelHelper.ExcelHelper.CreateExcelFromDataTable(dt);
+            //Console.ReadKey();
+            OpenXmlGenerateExcelTest.test.CreateSpreadSheet(dt);
         }
 
         /// <summary>
