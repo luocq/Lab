@@ -34,13 +34,10 @@ namespace ExcelHelper
             {
                 //创建WorkbookPart，在代码中主要使用这个相当于xml的root elements， spreadSheet.AddWorkbookPart()， 虽然是"Add"方法， 但你只能加一个。
                 Doc.AddWorkbookPart();
+                Doc.WorkbookPart.Workbook = new Workbook();
 
                 WorkbookStylesPart workbookStylesPart= Doc.WorkbookPart.AddNewPart<WorkbookStylesPart>();
                 GenerateWorkbookStylesPartContent(workbookStylesPart);
-
-
-                Doc.WorkbookPart.Workbook = new Workbook();
-
 
                 //添加工作表(Sheet)
                 WorksheetPart worksheetPart = InsertWorksheet(Doc.WorkbookPart,dt.TableName);
@@ -56,7 +53,6 @@ namespace ExcelHelper
                 for (ColumnIndex = 1; ColumnIndex <= dt.Columns.Count; ColumnIndex++)
                 {
                     string name = dt.Columns[ColumnIndex - 1].ColumnName;
-
                     Cell cell = InsertCellInWorksheet(GetColumnName(ColumnIndex), rowIndex, worksheetPart);
                     //在共用字符串容器里插入一个字符串
                     int strIndex = InsertSharedStringItem(name, shareStringPart);
