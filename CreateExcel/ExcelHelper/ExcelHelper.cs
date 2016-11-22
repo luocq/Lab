@@ -35,15 +35,15 @@ namespace ExcelHelper
                 //创建WorkbookPart，在代码中主要使用这个相当于xml的root elements， spreadSheet.AddWorkbookPart()， 虽然是"Add"方法， 但你只能加一个。
                 Doc.AddWorkbookPart();
 
-                WorkbookStylesPart workbookStylesPart1 = Doc.WorkbookPart.AddNewPart<WorkbookStylesPart>("rId3");
-                GenerateWorkbookStylesPart1Content(workbookStylesPart1);
+                WorkbookStylesPart workbookStylesPart= Doc.WorkbookPart.AddNewPart<WorkbookStylesPart>();
+                GenerateWorkbookStylesPartContent(workbookStylesPart);
 
 
                 Doc.WorkbookPart.Workbook = new Workbook();
 
 
                 //添加工作表(Sheet)
-                WorksheetPart worksheetPart = InsertWorksheet(Doc.WorkbookPart, "测试");
+                WorksheetPart worksheetPart = InsertWorksheet(Doc.WorkbookPart,dt.TableName);
 
                 //创建多个工作表可共用的字符串容器
                 SharedStringTablePart shareStringPart = CreateSharedStringTablePart(Doc.WorkbookPart);
@@ -171,7 +171,11 @@ namespace ExcelHelper
             return newWorksheetPart;
         }
 
-        private static void GenerateWorkbookStylesPart1Content(WorkbookStylesPart workbookStylesPart)
+        /// <summary>
+        /// 创建样式
+        /// </summary>
+        /// <param name="workbookStylesPart"></param>
+        private static void GenerateWorkbookStylesPartContent(WorkbookStylesPart workbookStylesPart)
         {
 
             /*

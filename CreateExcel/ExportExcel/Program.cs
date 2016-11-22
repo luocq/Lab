@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ExcelHelper;
 
 namespace ExportExcel
 {
@@ -12,6 +13,8 @@ namespace ExportExcel
         static void Main(string[] args)
         {
             DataTable dt = GetTestData();
+            ExcelHelper.ExcelHelper.CreateExcelFromDataTable(dt);
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -20,11 +23,8 @@ namespace ExportExcel
         /// <returns></returns>
         private static DataTable GetTestData()
         {
-            DataTable dt = new DataTable();
+            DataTable dt = new DataTable("test data");
             DataColumn dc = null;
-
-            //DataRow dr= dt.NewRow();
-
 
             dc = dt.Columns.Add("name", Type.GetType("System.String"));
             dc = dt.Columns.Add("Birth", Type.GetType("System.DateTime"));
