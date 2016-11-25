@@ -13,8 +13,18 @@ namespace ExportExcel
         static void Main(string[] args)
         {
             DataTable dt = GetTestData();
-            //ExcelHelper.ExcelHelper.CreateExcelFromDataTable(dt);
-            //Console.ReadKey();            
+            byte[] bFile = ExcelHelper.ExcelHelper.GenerteExcelFromDataTable(dt);
+            string FileName = @"C:\Users\LCQ\Desktop\test.xlsx";
+
+            try
+            {
+                System.IO.File.WriteAllBytes(FileName, bFile);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.InnerException.Message);
+            }
+
         }
 
         /// <summary>
