@@ -2,34 +2,135 @@
 
 <html>
 <head>
-<!-- 新 Bootstrap 核心 CSS 文件 -->
 <link rel="stylesheet" href="css/bootstrap.min.css">
 
-<!-- 可选的Bootstrap主题文件（一般不用引入） -->
-<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
 <script src="http://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
 
-<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-<script src="js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+    #menu ul {
+        list-style: none;
+        margin: 0px;
+        padding-left: 0;
+    }
+
+        #menu ul li {
+            list-style-position: outside;
+            margin-top: 5px;
+        }
+</style>
+<script>
+    $(function () {
+        $(".panel-heading").mouseenter(function () {
+            if ($(this).siblings(".panel-collapse").length > 0) {
+                $(this).parent().siblings().find(".panel-collapse").each(function () {
+                    $(this).removeClass("in");
+                })
+                $(this).siblings(".panel-collapse").addClass("in");
+            }
+        });
+    })
+</script>
 </head>
 
 <body>
 
-<div class="container">	
-	<div class="btn-group-vertical" role="group">
-		<a href="#" class = "btn btn-default" role = "button">后台管理首页0</a>   
-		<a class="btn btn-default" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">后台管理首页2</a>
-		<div class="collapse" id="collapseExample">
-			<div class="well " style="margin-bottom:0">
-		 		<a href="##">子菜单111</a><br/>
-		 		<a href="##">子菜单111</a><br/>
-		 		<a href="##">子菜单111</a>
-	  		</div>
-  		</div>
-		<a href="#" class = "btn btn-default" role = "button">后台管理首页1</a>  
+<div class="container">
+<div class="row">
+	<div class="col-lg-3">
+		<div class="panel-group" id="menu" role="tablist" aria-multiselectable="true">
+		    <div class="panel panel-default">
+		        <div class="panel-heading" role="tab" id="headingOne">
+		            <h4 class="panel-title">
+		                <i class="fa fa-caret-down text-danger" aria-hidden="true"></i>
+		                Item #1
+		            </h4>
+		        </div>
+		        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+		            <div class="panel-body">
+		                <ul>
+		                    <li><a href="##">Cras justo odio</a></li>
+		                    <li><a href="##">Dapibus ac facilisis in</a></li>
+		                    <li><a href="##">Morbi leo risus</a></li>
+		                    <li><a href="##">Porta ac consectetur ac</a></li>
+		                    <li><a href="##">Vestibulum at eros</a></li>
+		                </ul>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="panel panel-default">
+		        <div class="panel-heading" role="tab" id="headingOne">
+		            <h4 class="panel-title">
+		                <i class="fa fa-caret-down text-danger" aria-hidden="true"></i>
+		                Item #1
+		            </h4>
+		        </div>
+		        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+		            <div class="panel-body">
+		                <ul>
+		                    <li><a href="##">Cras justo odio</a></li>
+		                    <li><a href="##">Dapibus ac facilisis in</a></li>
+		                    <li><a href="##">Morbi leo risus</a></li>
+		                    <li><a href="##">Porta ac consectetur ac</a></li>
+		                    <li><a href="##">Vestibulum at eros</a></li>
+		                </ul>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="panel panel-default">
+		        <div class="panel-heading" role="tab" id="headingTwo">
+		            <h4 class="panel-title">
+		                <i class="fa fa-caret-down" aria-hidden="true"></i>
+		                    Item #2
+		            </h4>
+		        </div>
+		        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+		            <div class="panel-body">
+		                <ul>
+		                    <li><a href="##">Cras justo odio</a></li>
+		                    <li><a href="##">Dapibus ac facilisis in</a></li>
+		                    <li><a href="##">Morbi leo risus</a></li>
+		                    <li><a href="##">Porta ac consectetur ac</a></li>
+		                    <li><a href="##">Vestibulum at eros</a></li>
+		                </ul>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="panel panel-default">
+		        <div class="panel-heading" role="tab" id="headingThree">
+		            <h4 class="panel-title">
+		                <i class="fa fa-caret-down" aria-hidden="true"></i>
+		                    Item #3
+		            </h4>
+		        </div>
+		        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+		            <div class="panel-body">
+		                <ul>
+		                    <li><a href="##">Cras justo odio</a></li>
+		                    <li><a href="##">Dapibus ac facilisis in</a></li>
+		                    <li><a href="##">Morbi leo risus</a></li>
+		                    <li><a href="##">Porta ac consectetur ac</a></li>
+		                    <li><a href="##">Vestibulum at eros</a></li>
+		                </ul>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="panel panel-default">
+		        <div class="panel-heading" role="tab" id="headingThree">
+		            <h4 class="panel-title">
+		                <i class="fa fa-caret-right" aria-hidden="true"></i>
+		                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="###" aria-expanded="false" aria-controls="collapseThree">
+		                    Item #3
+		                </a>
+		            </h4>
+		        </div>
+		    </div>
+		</div>
 	</div>
+	<div class="col-lg-9"></div>
+</div>
 </div>
 
 
