@@ -1,0 +1,112 @@
+﻿<style>
+    #menu ul {
+        list-style: none;
+        margin: 0px;
+        padding-left: 0;
+    }
+
+        #menu ul li {
+            list-style-position: outside;
+            margin-top: 5px;
+        }
+</style>
+<script>
+    $(function () {
+        $(".panel-heading").mouseenter(function () {
+            if ($(this).siblings(".panel-collapse").length > 0) {
+                $(this).parent().siblings().find(".panel-collapse").each(function () {
+                    $(this).removeClass("in");
+                })
+                $(this).siblings(".panel-collapse").addClass("in");
+            }
+        });
+    })
+</script>
+<div class="panel-group" id="menu" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <i class="fa fa-caret-down text-danger" aria-hidden="true"></i>
+                Item #1
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+                <ul>
+                    <li><a href="##">Cras justo odio</a></li>
+                    <li><a href="##">Dapibus ac facilisis in</a></li>
+                    <li><a href="##">Morbi leo risus</a></li>
+                    <li><a href="##">Porta ac consectetur ac</a></li>
+                    <li><a href="##">Vestibulum at eros</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <i class="fa fa-caret-down text-danger" aria-hidden="true"></i>
+                Item #1
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+                <ul>
+                    <li><a href="##">Cras justo odio</a></li>
+                    <li><a href="##">Dapibus ac facilisis in</a></li>
+                    <li><a href="##">Morbi leo risus</a></li>
+                    <li><a href="##">Porta ac consectetur ac</a></li>
+                    <li><a href="##">Vestibulum at eros</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingTwo">
+            <h4 class="panel-title">
+                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                    Item #2
+            </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+            <div class="panel-body">
+                <ul>
+                    <li><a href="##">Cras justo odio</a></li>
+                    <li><a href="##">Dapibus ac facilisis in</a></li>
+                    <li><a href="##">Morbi leo risus</a></li>
+                    <li><a href="##">Porta ac consectetur ac</a></li>
+                    <li><a href="##">Vestibulum at eros</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingThree">
+            <h4 class="panel-title">
+                <i class="fa fa-caret-down" aria-hidden="true"></i>              
+                    Item #3              
+            </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+            <div class="panel-body">
+                <ul>
+                    <li><a href="##">Cras justo odio</a></li>
+                    <li><a href="##">Dapibus ac facilisis in</a></li>
+                    <li><a href="##">Morbi leo risus</a></li>
+                    <li><a href="##">Porta ac consectetur ac</a></li>
+                    <li><a href="##">Vestibulum at eros</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingThree">
+            <h4 class="panel-title">
+                <i class="fa fa-caret-right" aria-hidden="true"></i>
+                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="###" aria-expanded="false" aria-controls="collapseThree">
+                    Item #3
+                </a>
+            </h4>
+        </div>
+    </div>
+</div>
