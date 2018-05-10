@@ -284,7 +284,6 @@ $RECYCLE.BIN/
 *.pdb
 *.cache
 /packages/
-*.sln
 
 ###
 ### Java ignore files
